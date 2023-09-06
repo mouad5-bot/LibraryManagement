@@ -125,10 +125,15 @@ public class Book{
 
         preparedStatement.executeUpdate();
     }
-    public boolean deleteBook(){
-        return true;
+    public void deleteBook() throws SQLException {
+        String sql = "DELETE FROM Book WHERE isbn=?";
+        PreparedStatement preparedStatement = Connection.connect().prepareStatement(sql);
+        preparedStatement.setString(1, this.isbn);
+
+        preparedStatement.executeUpdate();
     }
-//    public Book searchForBook(){
+
+    //    public Book searchForBook(){
 //    }
     public ArrayList<Book> readBooksDisponible() {
         ArrayList<Book> disponibleBooks = new ArrayList<>();
