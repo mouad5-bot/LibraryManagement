@@ -1,15 +1,15 @@
+CREATE DATABASE libraryManagement;
 USE libraryManagement;
 
-
-CREATE TABLE Book (
+    CREATE TABLE Book (
         isbn VARCHAR(20) NOT NULL PRIMARY KEY,
         title VARCHAR(100) NOT NULL,
         idAuthor INT NOT NULL,
         stateOfBook VARCHAR(20) NOT NULL CHECK (stateOfBook = 'available' OR stateOfBook = 'unavailable' OR stateOfBook = 'borrowed'),
         quantity INT,
         quantityBorrowed INT,
-        RestOfBooks INT,
-        numberLost INT
+        quantityAvailable INT,
+        quantityLost INT
     );
 
     CREATE TABLE Person (
@@ -40,40 +40,3 @@ CREATE TABLE Book (
         FOREIGN KEY (idBorrower) REFERENCES Borrower(id),
         FOREIGN KEY (idBook) REFERENCES Book(isbn)
     );
-
-
-
-
-
-
-
-
-
-
-
-
-
---
--- create table Class(
---     id int primary key not null,
---     foreign key class(id) references Author(id),
--- )
---
--- create trigger updatestateBook
---     befor insert on Book
---     each row
---     begin
---     if new.borrowedBook = n then
---     new.quantityEmprunte += n;
-
-
-
-
-
-
-
-
-
-
-
-
