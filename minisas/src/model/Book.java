@@ -93,36 +93,38 @@ public class Book{
     }
 
     public Book addBook() throws SQLException {
-        String sql = "INSERT INTO Book (isbn, title, idAuthor, quantity, stateOfBook, quantityBorrowed, quantityAvailable, quantityLost)" + "" +
-                "VALUES (?, ?, ?, ?, 'available', ?, ?, ?)";
+        String sql = "INSERT INTO Book (isbn, title, idAuthor, quantity, stateOfBook, quantityBorrowed, quantityAvailable, quantityLost) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement preparedStatement =  Connection.connect().prepareStatement(sql);
         preparedStatement.setString(1, this.isbn);
         preparedStatement.setString(2, this.title);
         preparedStatement.setInt(3, this.author.getId());
         preparedStatement.setInt(4, this.quantity);
-        preparedStatement.setInt(5, this.quantityBorrowed);
-        preparedStatement.setInt(6, this.quantityAvailable);
-        preparedStatement.setInt(7, this.quantityLost);
+        preparedStatement.setString(5, this.stateOfBook.toString());
+        preparedStatement.setInt(6, this.quantityBorrowed);
+        preparedStatement.setInt(7, this.quantityAvailable);
+        preparedStatement.setInt(8, this.quantityLost);
 
-        ResultSet resultSet = preparedStatement.executeQuery();
+        int rowsUpdate = preparedStatement.executeUpdate();
 
         return this; //return the current obj
     }
-//    public void editDataOfBook(String newIsbn, String newTitle, int newQuantity, int newQuantityBorrowed, int newQuantityAvailable, int newQuantityLost) throws SQLException {
-//        String sql = "UPDATE Book SET isbn=?, title=?, quantity=?, quantityBorrowed=?, quantityAvailable=?, quantityLost=? WHERE isbn=?";
-//        PreparedStatement preparedStatement = Connection.connect().prepareStatement(sql);
-//        preparedStatement.setString(1, newIsbn);
-//        preparedStatement.setString(2, newTitle);
-//        preparedStatement.setInt(3, newQuantity);
-//        preparedStatement.setInt(4, newQuantityBorrowed);
-//        preparedStatement.setInt(5, newQuantityAvailable);
-//        preparedStatement.setInt(6, newQuantityLost);
-//        preparedStatement.setString(7, this.isbn);
-//
-//        preparedStatement.executeUpdate();
-//    }
+    public void updateDataOfBook() throws SQLException {
+        String sql = "UPDATE Book SET isbn=?, title=?, idAuthor=?,  quantity=?, stateOfBook=?,  quantityBorrowed=?, quantityAvailable=?, quantityLost=? WHERE isbn=?";
+        PreparedStatement preparedStatement = Connection.connect().prepareStatement(sql);
+        preparedStatement.setString(1, this.isbn);
+        preparedStatement.setString(2, this.title);
+        preparedStatement.setInt(3, this.author.getId());
+        preparedStatement.setInt(4, this.quantity);
+        preparedStatement.setString(5, this.stateOfBook.toString());
+        preparedStatement.setInt(6, this.quantityBorrowed);
+        preparedStatement.setInt(7, this.quantityAvailable);
+        preparedStatement.setInt(8, this.quantityLost);
+        preparedStatement.setString(9, this.isbn);
 
-    public void updateDataOfBook(){}
+
+        preparedStatement.executeUpdate();
+    }
     public boolean deleteBook(){
         return true;
     }
