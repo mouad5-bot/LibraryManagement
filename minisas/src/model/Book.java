@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.ArrayList;
 
+
 public class Book{
     private String isbn;
     private String title;
@@ -132,13 +133,65 @@ public class Book{
 
         preparedStatement.executeUpdate();
     }
-
-    //    public Book searchForBook(){
+//    public Book searchForBook(String title) throws SQLException {
+//        Book book = null;
+//        String sql = "SELECT * FROM book WHERE title like ? ";
+//
+//        try (PreparedStatement preparedStatement =  Connection.connect().prepareStatement(sql);) {
+//            preparedStatement.setString(1, title);
+//            //preparedStatement.setString(2, author.name);
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//
+//            if (resultSet.next()) {
+//                book = new Book(
+//                        resultSet.getString("isbn"),
+//                        resultSet.getString("title"),
+//                        resultSet.getInt("idAuthor"),
+//                        resultSet.getString("stateOfBook"),
+//                        resultSet.getInt("quantity"),
+//                        resultSet.getInt("quantityBorrowed"),
+//                        resultSet.getInt("quantityAvailable"),
+//                        resultSet.getInt("quantityLost")
+//                );
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return book;
 //    }
-    public ArrayList<Book> readBooksDisponible() {
-        ArrayList<Book> disponibleBooks = new ArrayList<>();
 
-        return disponibleBooks;
+
+    public void searchBookByTitle(String title){
+
+        try {
+            String sql="SELECT * FROM book WHERE title like ? ";
+            PreparedStatement statement = Connection.connect().prepareStatement(sql);
+            statement.setString(1, title);
+            //statement.setString(2, author);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                String isbn = resultSet.getString("isbn"),
+                String title_ =  resultSet.getString("title"),
+                int author_id = resultSet.getInt("idAuthor"),
+                String state_ =  resultSet.getString("stateOfBook"),
+                int qtn = resultSet.getInt("quantity"),
+                int qtnBrr = resultSet.getInt("quantityBorrowed"),
+                int qtnAv = resultSet.getInt("quantityAvailable"),
+                int qtnLost = resultSet.getInt("quantityLost")
+
+                System.out.println("isbn: " + isbn + ", Title: " + title_ + ", Author: " + author_id + ", State of book: " + state_ + ", Total Quantity: " + qtn + ", Quantity Borrowed: " + qtnBrr + ", Quantity Available: " + qtnAv + ", Quantity Lost: " + qtnLost);
+
+
+            } else {
+                System.out.println("No book with this title");
+            }
+        } catch (SQLException e) {
+            System.err.println("Database error: " + e.getMessage());
+
+        }
     }
+
     //public ArrayList<Book> readBorrowedBooks(){}
 }
