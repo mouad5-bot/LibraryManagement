@@ -18,7 +18,8 @@ public class Book{
     private int quantityAvailable;
     private int quantityBorrowed;
     private int quantityLost;
-    private Date dateAddingBook;
+
+
     public Book () {}
     public Book(String isbn, String title, Author author, State stateOfBook, int quantity, int quantityAvailable,int quantityBorrowed, int quantityLost) {
         this.isbn = isbn;
@@ -94,6 +95,7 @@ public class Book{
         this.quantityLost = quantityLost;
     }
 
+
     public Book addBook() throws SQLException {
         String sql = "INSERT INTO Book (isbn, title, idAuthor, quantity, stateOfBook, quantityBorrowed, quantityAvailable, quantityLost) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -134,42 +136,14 @@ public class Book{
 
         preparedStatement.executeUpdate();
     }
-//    public Book searchForBook(String title) throws SQLException {
-//        Book book = null;
-//        String sql = "SELECT * FROM book WHERE title like ? ";
-//
-//        try (PreparedStatement preparedStatement =  Connection.connect().prepareStatement(sql);) {
-//            preparedStatement.setString(1, title);
-//            //preparedStatement.setString(2, author.name);
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//
-//            if (resultSet.next()) {
-//                book = new Book(
-//                        resultSet.getString("isbn"),
-//                        resultSet.getString("title"),
-//                        resultSet.getInt("idAuthor"),
-//                        resultSet.getString("stateOfBook"),
-//                        resultSet.getInt("quantity"),
-//                        resultSet.getInt("quantityBorrowed"),
-//                        resultSet.getInt("quantityAvailable"),
-//                        resultSet.getInt("quantityLost")
-//                );
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return book;
-//    }
-
-
     public void searchBookByTitle(String title){
 
         try {
-            String sql="SELECT * FROM book WHERE title like ? ";
+            //String sql="SELECT * FROM book b inner join person p  WHERE b.title like ? OR a.name like ?";
+            String sql="SELECT *  book  WHERE title like ?";
             PreparedStatement statement = Connection.connect().prepareStatement(sql);
-            statement.setString(1, title);
-            //statement.setString(2, author);
+            statement.setString(1, "%" + title + "%" );
+            //statement.setString(2, "%" + author.getName() + "%");
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {

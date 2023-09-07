@@ -40,26 +40,27 @@ public class Menu {
                         choice = scanner.nextInt();
                         switch (choice) {
                             case 1:
-                                System.out.println("Please enter the coming parameters :");
-                                System.out.println("isbn of Book : ");
-                                String isbn = scanner.next();
-                                System.out.println("Title of Book : ");
-                                String title = scanner.next();
-                                System.out.println("Author of Book : ");
-                                String authorName = scanner.next();
-                                System.out.println("Quantity of Book : ");
-                                int quantity = scanner.nextInt();
-                                int quantityBorrowed = 0;
-                                int quantityAvailable = quantity;
-                                int quantityLost = 0;
+                                System.out.println("Please Enter The Name Of Author :");
+                                String AuthorName = scanner.next();
 
-                                Author author = new Author(authorName);
-//                                author.setId(null);
-                                author.setName(authorName);
+//                                System.out.println("Please enter the coming parameters :");
+//                                System.out.println("isbn of Book : ");
+//                                String isbn = scanner.next();
+//                                System.out.println("Title of Book : ");
+//                                String title = scanner.next();
+//                                System.out.println("Please choose the ID of the author of this Book : ");
+//
+//                                String authorId = scanner.next();
+//                                System.out.println("Quantity of Book : ");
+//                                int quantity = scanner.nextInt();
+//                                int quantityBorrowed = 0;
+//                                int quantityAvailable = quantity;
+//                                int quantityLost = 0;
 
-                                Book book = new Book(isbn, title, author, Book.State.available, quantity, quantityBorrowed, quantityAvailable, quantityLost);
-
-                                book.addBook();
+                                Author author = new Author(AuthorName);
+                                author.addAuthor();
+//                                Book book = new Book(isbn, title, author, Book.State.available, quantity, quantityBorrowed, quantityAvailable, quantityLost);
+//                                book.addBook();
 
                                 break;
                             case 2:
@@ -95,6 +96,10 @@ public class Menu {
                     clearScreen();
                     break;
                 case 2:
+                    System.out.println("Enter the name of book that you wanna search for :");
+                    String search = scanner.next();
+                    Book book = new Book();
+                    book.searchBookByTitle(search);
 
                     break;
                 case 3:
