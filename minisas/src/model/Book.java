@@ -4,6 +4,7 @@ import database.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 import java.util.ArrayList;
 
@@ -172,14 +173,14 @@ public class Book{
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                String isbn = resultSet.getString("isbn"),
-                String title_ =  resultSet.getString("title"),
-                int author_id = resultSet.getInt("idAuthor"),
-                String state_ =  resultSet.getString("stateOfBook"),
-                int qtn = resultSet.getInt("quantity"),
-                int qtnBrr = resultSet.getInt("quantityBorrowed"),
-                int qtnAv = resultSet.getInt("quantityAvailable"),
-                int qtnLost = resultSet.getInt("quantityLost")
+                String isbn = resultSet.getString("isbn");
+                String title_ =  resultSet.getString("title");
+                int author_id = resultSet.getInt("idAuthor");
+                String state_ =  resultSet.getString("stateOfBook");
+                int qtn = resultSet.getInt("quantity");
+                int qtnBrr = resultSet.getInt("quantityBorrowed");
+                int qtnAv = resultSet.getInt("quantityAvailable");
+                int qtnLost = resultSet.getInt("quantityLost");
 
                 System.out.println("isbn: " + isbn + ", Title: " + title_ + ", Author: " + author_id + ", State of book: " + state_ + ", Total Quantity: " + qtn + ", Quantity Borrowed: " + qtnBrr + ", Quantity Available: " + qtnAv + ", Quantity Lost: " + qtnLost);
 
@@ -191,6 +192,19 @@ public class Book{
             System.err.println("Database error: " + e.getMessage());
 
         }
+    }
+
+    public void getAllBooks() throws SQLException {
+
+            String sql="SELECT * FROM book";
+        PreparedStatement statement = Connection.connect().prepareStatement(sql);
+
+        ResultSet res = statement.executeQuery(sql);
+
+            while (res.next()) {
+                System.out.println("isbn: " + res.getString("isbn") + "Title: " + res.getString("title") + "Quantity: " + res.getInt("quantity")   );
+            }
+
     }
 
     //public ArrayList<Book> readBorrowedBooks(){}

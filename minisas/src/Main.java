@@ -14,11 +14,11 @@ public class Main {
 //        author.setName("unconnu");
 //
 //
-//        Book book = new Book("21878", "Joha2", author, Book.State.available, 10, 10, 0, 0);
+        Book book = new Book("21878", "Joha2", author, Book.State.available, 10, 10, 0, 0);
 //
-//        book.addBook();
+        book.searchBookByTitle("JAVA");
 
-        menu();
+        //menu();
 
 
     }

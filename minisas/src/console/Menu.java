@@ -64,6 +64,8 @@ public class Menu {
                                 break;
                             case 2:
                                 System.out.println("Display Books");
+                                Book book_1 = new Book();
+                                book_1.getAllBooks();
                                 break;
                             case 3:
                                 System.out.println("Edit a Book");
