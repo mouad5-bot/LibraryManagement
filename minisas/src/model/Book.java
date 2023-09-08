@@ -113,6 +113,30 @@ public class Book{
 
         return this; //return the current obj
     }
+    public Book getBook(String isbn) throws SQLException {
+        String sql = "SELECT * FROM book WHERE isbn = ?";
+        PreparedStatement preparedStatement = Connection.connect().prepareStatement(sql);
+        preparedStatement.setString(1, isbn); // Use the provided ISBN
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        Book book = null; // Create a Book object to store the result
+        if (resultSet.next()) {
+            book = new Book(); // Initialize a new Book object
+            book.setIsbn(resultSet.getString("isbn"));
+            book.setTitle(resultSet.getString("title"));
+            book.setA(resultSet.getString("idAuthor"));
+            book.setQuantity(resultSet.getString("quantity"));
+            book.setQuantityBorrowed(resultSet.getString("quantityBorrowed"));
+            book.setQuantityAvailable(resultSet.getString("quantityAvailable"));
+            book.setQuantityLost(resultSet.getInt("quantityLost"));
+            // You can add more fields here if needed
+        }
+
+        resultSet.close();
+        preparedStatement.close();
+        return book; // Return the Book object or null if no matching book was found
+    }
+
     public void updateDataOfBook() throws SQLException {
         String sql = "UPDATE Book SET isbn=?, title=?, idAuthor=?,  quantity=?, stateOfBook=?,  quantityBorrowed=?, quantityAvailable=?, quantityLost=? WHERE isbn=?";
         PreparedStatement preparedStatement = Connection.connect().prepareStatement(sql);
@@ -140,7 +164,7 @@ public class Book{
 
         try {
             //String sql="SELECT * FROM book b inner join person p  WHERE b.title like ? OR a.name like ?";
-            String sql="SELECT *  book  WHERE title like ?";
+            String sql="SELECT * FROM book  WHERE title like ?";
             PreparedStatement statement = Connection.connect().prepareStatement(sql);
             statement.setString(1, "%" + title + "%" );
             //statement.setString(2, "%" + author.getName() + "%");
@@ -160,7 +184,7 @@ public class Book{
 
 
             } else {
-                System.out.println("No book with this title");
+                System.out.println("There is No book with this title");
             }
         } catch (SQLException e) {
             System.err.println("Database error: " + e.getMessage());
@@ -178,7 +202,6 @@ public class Book{
             while (res.next()) {
                 System.out.println("isbn: " + res.getString("isbn") + "Title: " + res.getString("title") + "Quantity: " + res.getInt("quantity")   );
             }
-
     }
 
     //public ArrayList<Book> readBorrowedBooks(){}

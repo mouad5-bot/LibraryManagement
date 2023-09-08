@@ -1,7 +1,13 @@
 package model;
+
+import database.Connection;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 public class Librarians extends Person{
-    public Librarians(int id, String name){
-        this.id = id;
+    public Librarians(String name){
         this.name = name;
     }
+
 }
