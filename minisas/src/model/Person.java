@@ -1,11 +1,18 @@
 package model;
 public class Person {
-    public int id;
-    public String name;
+    protected int id;
+    protected String name;
 
     public int getId(){
         return id;
     }
+
+    public Person(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    public Person() {}
+
     public void setId(int id){
         this.id = id;
     }

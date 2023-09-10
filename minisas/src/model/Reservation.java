@@ -3,8 +3,8 @@ import database.Connection;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-//import java.util.Date;
-import java.sql.Date;
+import java.util.Date;
+//import java.sql.Date;
 import java.lang.String;
 
 public class Reservation {
@@ -15,10 +15,11 @@ public class Reservation {
     private int quantityReserved;
 
 
-    public Reservation(Borrower borrower, Book book, Date dateReturn, int quantityReserved) {
+    public Reservation(){}
+    public Reservation(Borrower borrower, Book book, Date dateReservation,  Date dateReturn, int quantityReserved) {
         this.borrower = borrower;
         this.book = book;
-        this.dateReservation = null; //null untel reserved
+        this.dateReservation = dateReservation;
         this.dateReturn = dateReturn;
         this.quantityReserved = quantityReserved;
     }
@@ -60,17 +61,20 @@ public class Reservation {
             String sql = "INSERT INTO reservation (idBorrower, idBook, dateReservation, dateReturn, quantityReserved) " +
                     "VALUES (?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement =  Connection.connect().prepareStatement(sql);
-            preparedStatement.setInt(1, this.borrower.id);
+            preparedStatement.setInt(1, this.borrower.getId());
             preparedStatement.setString(2, this.book.getIsbn());
-            preparedStatement.setDate(3,  this.dateReservation);
-            preparedStatement.setDate(4, this.dateReturn);
+            preparedStatement.setDate(3, new java.sql.Date(this.dateReservation.getTime()));
+            preparedStatement.setDate(4, new java.sql.Date(this.dateReturn.getTime()));
             preparedStatement.setInt(5, this.quantityReserved);
 
             int rowsUpdate = preparedStatement.executeUpdate();
+
+            System.out.println("THE BOOK HAS BEEN BORROWED SUCCESSFULLY");
+
         } else if (book.getQuantityAvailable() == 0) {
             System.out.println("No available book !!");
         } else {
-            System.out.println("Books are already reserved !!");
+            System.out.println("~~~~~~~~~~~  Books are already reserved !!  ~~~~~~~~~~");
         }
     }
     //public void returnBook(){}

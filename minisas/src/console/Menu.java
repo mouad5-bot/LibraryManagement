@@ -1,6 +1,5 @@
 package console;
-import model.Book;
-import model.Author;
+import model.*;
 
 import java.util.Date;
 import java.sql.SQLException;
@@ -11,6 +10,7 @@ import java.text.ParseException;
 public class Menu {
     public static void menu() throws SQLException {
 
+        Reservation rev ;
         Scanner scanner = new Scanner(System.in);
         int choice;
 
@@ -87,7 +87,15 @@ public class Menu {
                                 Book book__ = new Book();
                                 String isbn__ = scanner.next();
                                 book__.setIsbn(isbn__);
-                                book__.deleteBook();
+                                System.out.print("\u001B[40m");
+                                System.out.println("Are you sure you wanna delete this book: \n1. Yes\n2. No");
+                                System.out.print("\u001B[0m");
+                                int x = scanner.nextInt();
+                                if(x == 1){
+                                    book__.deleteBook();
+                                }else{
+                                    menu();
+                                }
                                 break;
                             case 5:
                                 try {
@@ -115,27 +123,47 @@ public class Menu {
                 case 3:
                     System.out.println("########## Management of loans and returns. ########## \n");
                     System.out.println("Choose a numbre of your choice :");
-                    System.out.println("\\t01 : Borrow a book\"");
-                    System.out.println("\\t02 : return a book\"");
+                    System.out.println("01 : Borrow a book");
+                    System.out.println("02 : return a book");
+                    choice = scanner.nextInt();
                     do{
                         switch (choice){
                             case 1 :
                                 System.out.println("----- Borrow a book -----");
 
-                                System.out.println("Please enter the name of the borrower ");
-                                String borrowerName = scanner.next();
+                                Book book_1 = new Book();
+                                Borrower bookBorrower_ = new Borrower();
 
-                                System.out.println("Please enter the isbn of the book ");
+
+                                System.out.println("Please enter the borrower name : ");
+                                String borrowerName = scanner.next();
+                                bookBorrower_.searchBorrower(borrowerName);
+
+                                System.out.println("Now enter the id of borrower you choose from the list : ");
+                                int borrowerId = scanner.nextInt();
+                                int test =bookBorrower_.findBorrowerById(borrowerId) ;
+                                if(test!=0){
+                                    bookBorrower_.setId(test);
+                                }
+
+
+                                System.out.println("Please enter the isbn of the book : ");
                                 String isbn = scanner.next();
+                                Book bookData = book_1.getBook(isbn);
 
                                 Date dateReservation = new Date();
 
                                 System.out.println("Please enter the date that the book will be returned (yyyy-MM-dd):  ");
                                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                                 String dateString = scanner.next();
+                                Date dateReturn = null;
                                 try {
-                                    Date dateReturn = dateFormat.parse(dateString);
+                                    dateReturn = dateFormat.parse(dateString);
+                                    System.out.print("\u001B[34m");
                                     System.out.println("You entered: " + dateReturn);
+                                    System.out.print("\u001B[0m");
+                                    System.out.print("\u001B[32m");
+
                                 } catch (ParseException e) {
                                     System.out.println("Invalid date format. Please enter a date in the format yyyy-MM-dd.");
                                 }
@@ -143,12 +171,15 @@ public class Menu {
                                 System.out.println("Please enter the quantity that will be borrowed :");
                                 int qnt = scanner.nextInt();
 
-                                Book bookBorr = new Book();
-                                int qntAvailable = bookBorr.getQuantity() - qnt;
+                                int qntAvailable = bookData.getQuantity() - qnt;
 
-                                bookBorr.setQuantityAvailable(qntAvailable);
-                                //System.out.println("Book " + bookBorr.getTitle() + " reserved by " + borrower.getName() + " on " + dateReservation);
+                                bookData.setQuantityAvailable(qntAvailable);
+                                bookBorrower_.setId(test);
+                                //System.out.printf(">>>>>" +bookBorrower_ );
 
+
+                                rev = new Reservation(bookBorrower_, bookData, dateReservation, dateReturn, qnt) ;
+                                rev.reserve();
 
                                 break;
                             case 2 :

@@ -7,9 +7,21 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 
 public class Author extends Person{
+    private int personId;
+
+    public Author(){}
     public Author(String name){
         this.name = name;
     }
+
+    public int getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(int personId) {
+        this.personId = personId;
+    }
+
     public void addAuthor() throws SQLException {
         String sql = "INSERT INTO Author (name) VALUES(?)";
         PreparedStatement preparedStatement = Connection.connect().prepareStatement(sql);

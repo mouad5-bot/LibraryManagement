@@ -114,22 +114,25 @@ public class Book{
         return this; //return the current obj
     }
     public Book getBook(String isbn) throws SQLException {
-        String sql = "SELECT * FROM book WHERE isbn = ?";
+        String sql = "SELECT * FROM book b inner join author a inner join person p on b.idAuthor = a.id AND a.personId = p.id WHERE b.isbn = ?";
         PreparedStatement preparedStatement = Connection.connect().prepareStatement(sql);
         preparedStatement.setString(1, isbn); // Use the provided ISBN
         ResultSet resultSet = preparedStatement.executeQuery();
 
         Book book = null; // Create a Book object to store the result
         if (resultSet.next()) {
-            book = new Book(); // Initialize a new Book object
-            book.setIsbn(resultSet.getString("isbn"));
-            book.setTitle(resultSet.getString("title"));
-            book.setA(resultSet.getString("idAuthor"));
-            book.setQuantity(resultSet.getString("quantity"));
-            book.setQuantityBorrowed(resultSet.getString("quantityBorrowed"));
-            book.setQuantityAvailable(resultSet.getString("quantityAvailable"));
-            book.setQuantityLost(resultSet.getInt("quantityLost"));
-            // You can add more fields here if needed
+            Author author = new Author();
+            author.setId(resultSet.getInt("a.id"));
+            author.setName(resultSet.getString("p.name"));
+
+            book = new Book();
+            book.setIsbn(resultSet.getString("b.isbn"));
+            book.setTitle(resultSet.getString("b.title"));
+            book.setAuthor(author);
+            book.setQuantity(resultSet.getInt("b.quantity"));
+            book.setQuantityBorrowed(resultSet.getInt("b.quantityBorrowed"));
+            book.setQuantityAvailable(resultSet.getInt("b.quantityAvailable"));
+            book.setQuantityLost(resultSet.getInt("b.quantityLost"));
         }
 
         resultSet.close();

@@ -41,6 +41,7 @@ CREATE TABLE Reservation (
                              id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                              idBorrower INT NOT NULL,
                              idBook VARCHAR(20) NOT NULL,
+                             quantityReserved int not null,
                              dateReservation DATE NOT NULL,
                              dateReturn DATE NOT NULL,
                              FOREIGN KEY (idBorrower) REFERENCES Borrower(id),
