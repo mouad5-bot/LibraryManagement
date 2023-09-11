@@ -220,12 +220,9 @@ public class Menu {
 
                     break;
                 case 5:
-//                    System.out.println("------------ Statistics -------------");
-//                    Book bookStatistic = new Book();
-//                    Book bookInfo;
-//                    bookInfo = bookStatistic.statistics();
-//                    bookInfo.getIsbn()
-//                    System.out.println("");
+                    System.out.println("------------ Statistics -------------");
+                    Book bookStatistic = new Book();
+                    bookStatistic.printStatistics();
 
                     break;
                 case 6:
