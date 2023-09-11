@@ -140,12 +140,11 @@ public class Menu {
                                 bookBorrower_.searchBorrower(borrowerName);
 
                                 System.out.println("Now enter the id of borrower you choose from the list : ");
-                                int borrowerId = scanner.nextInt();
-                                int test =bookBorrower_.findBorrowerById(borrowerId) ;
-                                if(test!=0){
-                                    bookBorrower_.setId(test);
+                                int personId = scanner.nextInt();
+                                int BorrowerId = bookBorrower_.findBorrowerById(personId) ;
+                                if(BorrowerId != 0){
+                                    bookBorrower_.setId(BorrowerId);
                                 }
-
 
                                 System.out.println("Please enter the isbn of the book : ");
                                 String isbn = scanner.next();
@@ -174,15 +173,31 @@ public class Menu {
                                 int qntAvailable = bookData.getQuantity() - qnt;
 
                                 bookData.setQuantityAvailable(qntAvailable);
-                                bookBorrower_.setId(test);
+                                bookBorrower_.setId(BorrowerId);
+                                //bookData.updateDataOfBook();
                                 //System.out.printf(">>>>>" +bookBorrower_ );
 
-
-                                rev = new Reservation(bookBorrower_, bookData, dateReservation, dateReturn, qnt) ;
+                                rev = new Reservation(bookBorrower_, bookData, dateReservation, dateReturn, qnt, "borrowed") ;
                                 rev.reserve();
 
                                 break;
                             case 2 :
+                                System.out.println("----- Return a book -----");
+
+                                Borrower borrower = new Borrower();
+
+                                System.out.println("Please enter the name of borrower who borrowed the book :");
+                                String nameBorrower = scanner.next();
+
+                                borrower.searchBorrower(nameBorrower);
+
+                                System.out.println("Now enter the id of borrower you choose from the list : ");
+                                int personId_ = scanner.nextInt();
+                                int BorrowerId_ = borrower.findBorrowerById(personId_) ;
+                                if(BorrowerId_ != 0){
+                                    borrower.setId(BorrowerId_);
+                                }
+
                                 break;
                             case 3:
                                 try {

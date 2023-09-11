@@ -137,7 +137,7 @@ public class Book{
 
         resultSet.close();
         preparedStatement.close();
-        return book; // Return the Book object or null if no matching book was found
+        return book;
     }
 
     public void updateDataOfBook() throws SQLException {
@@ -197,7 +197,7 @@ public class Book{
 
     public void getAllBooks() throws SQLException {
 
-            String sql="SELECT * FROM book";
+        String sql="SELECT * FROM book";
         PreparedStatement statement = Connection.connect().prepareStatement(sql);
 
         ResultSet res = statement.executeQuery(sql);
@@ -207,5 +207,16 @@ public class Book{
             }
     }
 
-    //public ArrayList<Book> readBorrowedBooks(){}
+//    public void readBorrowedBooks() throws SQLException {
+//        String sql="SELECT * FROM Reservation";
+//        PreparedStatement statement = Connection.connect().prepareStatement(sql);
+//
+//        ResultSet res = statement.executeQuery(sql);
+//
+//        while (res.next()) {
+//            //System.out.println("isbn: " + res.getString("idBook") + "id of borrower: " + res.getString("idBorrower") + "Quantity reserved: " + res.getInt("quantityReserved")   );
+//            System.out.println("isbn " );
+//            System.out.println(res.getString("idBook"));
+//        }
+//    }
 }
