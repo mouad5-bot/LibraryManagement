@@ -115,10 +115,9 @@ public class Menu {
                     break;
                 case 2:
                     System.out.println("Enter the name of book that you wanna search for :");
-                    String search = scanner.next();
-                    Book book = new Book();
-                    book.searchBookByTitle(search);
-
+                        String search = scanner.next();
+                        Book book = new Book();
+                        book.searchBookByTitle(search);
                     break;
                 case 3:
                     System.out.println("########## Management of loans and returns. ########## \n");
@@ -174,8 +173,6 @@ public class Menu {
 
                                 bookData.setQuantityAvailable(qntAvailable);
                                 bookBorrower_.setId(BorrowerId);
-                                //bookData.updateDataOfBook();
-                                //System.out.printf(">>>>>" +bookBorrower_ );
 
                                 rev = new Reservation(bookBorrower_, bookData, dateReservation, dateReturn, qnt, "borrowed") ;
                                 rev.reserve();
@@ -185,18 +182,24 @@ public class Menu {
                                 System.out.println("----- Return a book -----");
 
                                 Borrower borrower = new Borrower();
+                                Reservation reservation = new Reservation();
 
                                 System.out.println("Please enter the name of borrower who borrowed the book :");
                                 String nameBorrower = scanner.next();
-
                                 borrower.searchBorrower(nameBorrower);
 
                                 System.out.println("Now enter the id of borrower you choose from the list : ");
                                 int personId_ = scanner.nextInt();
-                                int BorrowerId_ = borrower.findBorrowerById(personId_) ;
+                                int BorrowerId_ = borrower.findBorrowerById(personId_);
                                 if(BorrowerId_ != 0){
                                     borrower.setId(BorrowerId_);
                                 }
+
+                                reservation.getReservationByBorrowerId(BorrowerId_);
+
+                                System.out.println("Now enter please the id of the reservation from the list: ");
+                                int idReservation = scanner.nextInt();
+                                reservation.updateReservation(idReservation);
 
                                 break;
                             case 3:
@@ -217,6 +220,8 @@ public class Menu {
 
                     break;
                 case 5:
+                    System.out.println("------------ Statistics -------------");
+                    System.out.println("");
 
                     break;
                 case 6:

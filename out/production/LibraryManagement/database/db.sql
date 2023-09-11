@@ -44,6 +44,7 @@ CREATE TABLE Reservation (
                              quantityReserved int not null,
                              dateReservation DATE NOT NULL,
                              dateReturn DATE NOT NULL,
+                             status varchar(30) not null,
                              FOREIGN KEY (idBorrower) REFERENCES Borrower(id),
                              FOREIGN KEY (idBook) REFERENCES Book(isbn)
 );

@@ -2,12 +2,14 @@ package model;
 import database.Connection;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 //import java.sql.Date;
 import java.lang.String;
 
 public class Reservation {
+    private int id;
     private Borrower borrower;
     private Book book;
     private Date dateReservation;
@@ -24,6 +26,14 @@ public class Reservation {
         this.dateReturn = dateReturn;
         this.quantityReserved = quantityReserved;
         this.status = status;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Borrower getBorrower() {
@@ -96,5 +106,53 @@ public class Reservation {
             System.out.println("~~~~~~~~~~~  Books are already reserved !!  ~~~~~~~~~~");
         }
     }
+
+    public void updateReservation( int id )throws SQLException {
+        String sql = "UPDATE reservation SET  status = 'Returned' WHERE id=?";
+        PreparedStatement preparedStatement = Connection.connect().prepareStatement(sql);
+        preparedStatement.setInt(1, id);
+
+        preparedStatement.executeUpdate();
+
+    }
+
+
+    public void getReservationByBorrowerId(int BorrowerId_){
+        try {
+            String sql="SELECT * FROM reservation WHERE idBorrower = ? and status = 'borrowed'";
+            PreparedStatement statement = Connection.connect().prepareStatement(sql);
+            statement.setInt(1,  BorrowerId_);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                int idBorrower = resultSet.getInt("idBorrower");
+                String idBook = resultSet.getString("idBook");
+                Date dateReservation = resultSet.getDate("dateReservation");
+                Date dateReturn = resultSet.getDate("dateReturn");
+                int quantityReserved = resultSet.getInt("quantityReserved");
+                String status = resultSet.getString("status");
+
+                System.out.print("\u001B[34m");
+                System.out.println("|| id: " + id + "  ||  isbn: " + idBook + "  ||  Quantity Reserved : " + quantityReserved + "  || dateReturn : " + dateReturn + "  ||");
+                System.out.print("\u001B[0m");
+                System.out.print("\u001B[32m");
+            }
+        } catch (SQLException e) {
+            System.err.println("Database error: " + e.getMessage());
+        }
+    }
+
+//    public void findBy_status() throws SQLException {
+//        String sql = " SELECT * FROM reservationr WHERE status = 'borrowed' ";
+//        PreparedStatement preparedStatement = Connection.connect().prepareStatement(sql);
+//        ResultSet resultSet = preparedStatement.executeQuery();
+//
+//        if (resultSet.next()) {
+//            resultSet.getString("status");
+//        }
+//        resultSet.close();
+//        preparedStatement.close();
+//    }
+
     //public void returnBook(){}
 }
