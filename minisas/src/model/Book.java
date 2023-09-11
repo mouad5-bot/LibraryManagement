@@ -140,6 +140,36 @@ public class Book{
         return book;
     }
 
+    public Book statistics() throws SQLException {
+        String sql = "SELECT COUNT(b.isbn) as totalBooks, COUNT(a.id) as totalAuthors, SUM(b.quantity) as totalQuantity," +
+                " SUM(b.quantityBorrowed) as totalQuantityBorrowed, " + "SUM(b.quantityAvailable) as totalQuantityAvailable," +
+                " SUM(b.quantityLost) as totalQuantityLost" +  "FROM book b INNER JOIN author a ON b.idAuthor = a.id";
+        PreparedStatement preparedStatement = Connection.connect().prepareStatement(sql);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        Book book = null;
+        if (resultSet.next()) {
+
+            book = new Book();
+            // there is an error here ----> book.setIsbn(resultSet.getInt("totalBooks"));
+            book.setAuthor(author);
+            book.setQuantity(resultSet.getInt("totalQuantity"));
+            book.setQuantityBorrowed(resultSet.getInt("totalQuantityBorrowed"));
+            book.setQuantityAvailable(resultSet.getInt("totalQuantityAvailable"));
+            book.setQuantityLost(resultSet.getInt("totalQuantityLost"));
+        }
+        // -------> int isbn = book.getIsbn();
+        Author author = book.getAuthor();
+        book.getQuantity();
+        book.getQuantityBorrowed();
+        book.getQuantityAvailable();
+        book.getQuantityLost();
+
+        resultSet.close();
+        preparedStatement.close();
+        return book;
+    }
+
     public void updateDataOfBook() throws SQLException {
         String sql = "UPDATE Book SET isbn=?, title=?, idAuthor=?,  quantity=?, stateOfBook=?,  quantityBorrowed=?, quantityAvailable=?, quantityLost=? WHERE isbn=?";
         PreparedStatement preparedStatement = Connection.connect().prepareStatement(sql);
