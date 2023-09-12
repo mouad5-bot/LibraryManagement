@@ -21,7 +21,8 @@ CREATE TRIGGER increment_book_quantity
 BEGIN
     IF NEW.status = 'returned' AND OLD.status = 'borrowed' THEN
     UPDATE book
-    SET quantityAvailable = quantityAvailable + NEW.quantityreserved
+    SET quantityAvailable = quantityAvailable + NEW.quantityreserved,
+        b.quantityBorrowed = b.quantityBorrowed - NEW.quantityReserved
     WHERE isbn = NEW.idBook;
 END IF;
 END;

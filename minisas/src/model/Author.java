@@ -3,8 +3,8 @@ package model;
 import database.Connection;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.PreparedStatement;
 
 public class Author extends Person{
     private int personId;
@@ -81,6 +81,39 @@ public class Author extends Person{
 //            e.printStackTrace();
 //        }
 //    }
+
+    public void searchAuthor(String name){
+        try {
+            String sql="SELECT * FROM author a inner join person p on a.personId = p.id  WHERE p.name like ?";
+            PreparedStatement statement = Connection.connect().prepareStatement(sql);
+            statement.setString(1, "%" + name + "%" );
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("p.id");
+                String nameBorrower =  resultSet.getString("p.name");
+
+                System.out.println("id: " + id + ", name: " + nameBorrower );
+            }
+        } catch (SQLException e) {
+            System.err.println("Database error: " + e.getMessage());
+
+        }
+    }
+
+    public int findAuthorId(int id) throws SQLException {
+        String sql = "SELECT a.id FROM author a inner join person p on a.personId = p.id WHERE p.id = ?";
+        PreparedStatement preparedStatement = Connection.connect().prepareStatement(sql);
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        int res = 0;
+        if (resultSet.next()) {
+            res = resultSet.getInt("a.id");
+        }
+        resultSet.close();
+        preparedStatement.close();
+        return res;
+    }
 }
 
 

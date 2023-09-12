@@ -164,7 +164,7 @@ public class Book{
         }
     }
 
-    public void updateDataOfBook(int isbn_) throws SQLException {
+    public void updateDataOfBook(String isbn_) throws SQLException {
         String sql = "UPDATE Book SET isbn=?, title=?, idAuthor=?,  quantity=?, stateOfBook=?,  quantityBorrowed=?, quantityAvailable=?, quantityLost=? WHERE isbn=?";
         PreparedStatement preparedStatement = Connection.connect().prepareStatement(sql);
         preparedStatement.setString(1, this.isbn);
@@ -175,7 +175,7 @@ public class Book{
         preparedStatement.setInt(6, this.quantityBorrowed);
         preparedStatement.setInt(7, this.quantityAvailable);
         preparedStatement.setInt(8, this.quantityLost);
-        preparedStatement.setInt(9, isbn_);
+        preparedStatement.setString(9, isbn_);
 
         preparedStatement.executeUpdate();
     }
@@ -185,6 +185,7 @@ public class Book{
         preparedStatement.setString(1, this.isbn);
 
         preparedStatement.executeUpdate();
+        System.out.println("THE BOOK HAS BEEN DELETED SUCCESSFULLY.");
     }
     public void searchBookByTitle(String title){
 

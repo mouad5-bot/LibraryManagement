@@ -11,6 +11,8 @@ public class Menu {
     public static void menu() throws SQLException {
 
         Reservation rev ;
+        ReturnToMenu backToMenu = new ReturnToMenu();
+
         Scanner scanner = new Scanner(System.in);
         int choice;
 
@@ -65,11 +67,14 @@ public class Menu {
                                 Book book = new Book(isbn, title, author, Book.State.available, quantity, quantityBorrowed, quantityAvailable, quantityLost);
                                 book.addBook();
 
+                                backToMenu.getMenu();
                                 break;
                             case 2:
                                 System.out.println("Display Books");
                                 Book book_1 = new Book();
                                 book_1.getAllBooks();
+
+                                backToMenu.getMenu();
                                 break;
                             case 3:
                                 System.out.println("######### Edit a Book ######### ");
@@ -78,12 +83,25 @@ public class Menu {
                                 String isbn_ = scanner.next();
                                 Book bookData = new Book();
                                 bookData = bookData.getBook(isbn_);
+
+                                System.out.println("Enter new or old isbn :");
                                 bookData.setIsbn(scanner.next());
+
+                                System.out.println("Enter new or old Title :");
                                 bookData.setTitle(scanner.next());
-                                //bookData.setAuthor();
-//                                Book bookEdit = new Book(isbn, title, author, Book.State.available, quantity, quantityBorrowed, quantityAvailable, quantityLost);
-//
-//                                bookEdit.updateDataOfBook(isbn);
+
+                                Author authorEdit = new Author();
+                                System.out.println("Enter new or old Author name :");
+                                String name = scanner.next();
+                                authorEdit.searchAuthor(name);
+                                System.out.println("now enter the id of the author that you wanna edit ");
+                                int idPerson = scanner.nextInt();
+                                authorEdit.setId(authorEdit.findAuthorId(idPerson));
+
+                                Book bookEdit = new Book();
+                                bookEdit.updateDataOfBook(isbn_);
+
+                                backToMenu.getMenu();
                                 break;
                             case 4:
                                 System.out.println("Pleas enter the isbn of the book that you wanna delete :");
@@ -99,6 +117,8 @@ public class Menu {
                                 }else{
                                     menu();
                                 }
+
+                                backToMenu.getMenu();
                                 break;
                             case 5:
                                 try {
@@ -121,6 +141,8 @@ public class Menu {
                         String title = scanner.next();
                         Book book = new Book();
                         book.searchBookByTitle(title);
+
+                    backToMenu.getMenu();
                     break;
                 case 3:
                     System.out.println("########## Management of loans and returns. ########## \n");
@@ -135,7 +157,6 @@ public class Menu {
 
                                 Book book_1 = new Book();
                                 Borrower bookBorrower_ = new Borrower();
-
 
                                 System.out.println("Please enter the borrower name : ");
                                 String borrowerName = scanner.next();
@@ -160,11 +181,23 @@ public class Menu {
                                 Date dateReturn = null;
                                 try {
                                     dateReturn = dateFormat.parse(dateString);
-                                    System.out.print("\u001B[34m");
-                                    System.out.println("You entered: " + dateReturn);
-                                    System.out.print("\u001B[0m");
-                                    System.out.print("\u001B[32m");
-
+                                    if (dateReservation.before(dateReturn)) {
+                                        System.out.print("\u001B[34m");
+                                        System.out.println("You entered: " + dateReturn);
+                                        System.out.print("\u001B[0m");
+                                        System.out.print("\u001B[32m");
+                                    } else {
+                                        while (dateReservation.after(dateReturn)) {
+                                            System.out.println("Invalid return date. The return date should be after the reservation date.");
+                                            System.out.println("Please insert a valid date of return (yyyy-MM-dd): ");
+                                            dateString = scanner.next();
+                                            dateReturn = dateFormat.parse(dateString);
+                                        }
+                                        System.out.print("\u001B[34m");
+                                        System.out.println("You entered: " + dateReturn);
+                                        System.out.print("\u001B[0m");
+                                        System.out.print("\u001B[32m");
+                                    }
                                 } catch (ParseException e) {
                                     System.out.println("Invalid date format. Please enter a date in the format yyyy-MM-dd.");
                                 }
@@ -180,6 +213,7 @@ public class Menu {
                                 rev = new Reservation(bookBorrower_, bookData, dateReservation, dateReturn, qnt, "borrowed") ;
                                 rev.reserve();
 
+                                backToMenu.getMenu();
                                 break;
                             case 2 :
                                 System.out.println("----- Return a book -----");
@@ -203,7 +237,9 @@ public class Menu {
                                 System.out.println("Now enter please the id of the reservation from the list: ");
                                 int idReservation = scanner.nextInt();
                                 reservation.updateReservation(idReservation);
+                                System.out.println("THE BOOK HAS BEEN RETURNED SUCCESSFULLY");
 
+                                backToMenu.getMenu();
                                 break;
                             case 3:
                                 try {
@@ -224,6 +260,7 @@ public class Menu {
                     Book bookStatistic = new Book();
                     bookStatistic.printStatistics();
 
+                    backToMenu.getMenu();
                     break;
                 case 5:
                     try {

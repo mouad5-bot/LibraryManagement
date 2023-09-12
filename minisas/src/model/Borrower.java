@@ -25,7 +25,7 @@ public class Borrower extends Person{
         this.personId = personId;
     }
 
-    public void addBorrower() throws SQLException {
+    public void addBorrower(String name) throws SQLException {
         String sql = "INSERT INTO borrower (name) VALUES(?)";
         PreparedStatement preparedStatement = Connection.connect().prepareStatement(sql);
         preparedStatement.setString(1,  this.name);
