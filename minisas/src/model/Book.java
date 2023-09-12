@@ -119,7 +119,7 @@ public class Book{
         preparedStatement.setString(1, isbn); // Use the provided ISBN
         ResultSet resultSet = preparedStatement.executeQuery();
 
-        Book book = null; // Create a Book object to store the result
+        Book book = null;
         if (resultSet.next()) {
             Author author = new Author();
             author.setId(resultSet.getInt("a.id"));
@@ -134,54 +134,10 @@ public class Book{
             book.setQuantityAvailable(resultSet.getInt("b.quantityAvailable"));
             book.setQuantityLost(resultSet.getInt("b.quantityLost"));
         }
-
         resultSet.close();
         preparedStatement.close();
         return book;
     }
-//
-//    public Book statistics() throws SQLException {
-//        String sql = "SELECT COUNT(b.isbn) as totalBooks, COUNT(a.id) as totalAuthors, SUM(b.quantity) as totalQuantity," +
-//                " SUM(b.quantityBorrowed) as totalQuantityBorrowed, " + "SUM(b.quantityAvailable) as totalQuantityAvailable," +
-//                " SUM(b.quantityLost) as totalQuantityLost" +  "FROM book b INNER JOIN author a ON b.idAuthor = a.id";
-//        PreparedStatement preparedStatement = Connection.connect().prepareStatement(sql);
-//        ResultSet resultSet = preparedStatement.executeQuery();
-//
-// //       Book book = null;
-////        if (resultSet.next()) {
-////
-////            book = new Book();
-////            book.setIsbn(resultSet.getInt("totalBooks"));
-////            book.setAuthor(author);
-////            book.setQuantity(resultSet.getInt("totalQuantity"));
-////            book.setQuantityBorrowed(resultSet.getInt("totalQuantityBorrowed"));
-////            book.setQuantityAvailable(resultSet.getInt("totalQuantityAvailable"));
-////            book.setQuantityLost(resultSet.getInt("totalQuantityLost"));
-////        }
-//
-//        Book book = null;
-//        if (resultSet.next()) {
-//            book = new Book();
-//            int totalBooks = resultSet.getInt("totalBooks");
-//            book.setAuthor(author);
-//
-//            int totalQuantity = resultSet.getInt("totalQuantity");
-//            int totalQuantityBorrowed = resultSet.getInt("totalQuantityBorrowed");
-//            int totalQuantityAvailable = resultSet.getInt("totalQuantityAvailable");
-//            int totalQuantityLost = resultSet.getInt("totalQuantityLost");
-//
-//            System.out.println("totalBooks" + totalBooks);
-//            System.out.println("totalQuantity" + totalQuantity);
-//            System.out.println("totalQuantityBorrowed" + totalQuantityBorrowed);
-//            System.out.println("totalQuantityAvailable" + totalQuantityAvailable);
-//            System.out.println("totalQuantityLost" + totalQuantityLost);
-//        }
-//
-//        resultSet.close();
-//        preparedStatement.close();
-//        return book;
-//    }
-
     public  void printStatistics() throws SQLException {
         String sql = "SELECT COUNT(isbn) as totalBooks, " +
                 "SUM(quantity) as totalQuantity, " +
@@ -193,23 +149,22 @@ public class Book{
         PreparedStatement preparedStatement = Connection.connect().prepareStatement(sql);
         ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()) {
-                int totalBooks = resultSet.getInt("totalBooks");
-                int totalQuantity = resultSet.getInt("totalQuantity");
-                int totalQuantityBorrowed = resultSet.getInt("totalQuantityBorrowed");
-                int totalQuantityAvailable = resultSet.getInt("totalQuantityAvailable");
-                int totalQuantityLost = resultSet.getInt("totalQuantityLost");
+        if (resultSet.next()) {
+            int totalBooks = resultSet.getInt("totalBooks");
+            int totalQuantity = resultSet.getInt("totalQuantity");
+            int totalQuantityBorrowed = resultSet.getInt("totalQuantityBorrowed");
+            int totalQuantityAvailable = resultSet.getInt("totalQuantityAvailable");
+            int totalQuantityLost = resultSet.getInt("totalQuantityLost");
 
-                System.out.println("Total Books: " + totalBooks);
-                System.out.println("Total Quantity: " + totalQuantity);
-                System.out.println("Total Quantity Borrowed: " + totalQuantityBorrowed);
-                System.out.println("Total Quantity Available: " + totalQuantityAvailable);
-                System.out.println("Total Quantity Lost: " + totalQuantityLost);
-            }
-
+            System.out.println("Total Books: " + totalBooks);
+            System.out.println("Total Quantity: " + totalQuantity);
+            System.out.println("Total Quantity Available: " + totalQuantityAvailable);
+            System.out.println("Total Quantity Borrowed: " + totalQuantityBorrowed);
+            System.out.println("Total Quantity Lost: " + totalQuantityLost);
+        }
     }
 
-    public void updateDataOfBook() throws SQLException {
+    public void updateDataOfBook(int isbn_) throws SQLException {
         String sql = "UPDATE Book SET isbn=?, title=?, idAuthor=?,  quantity=?, stateOfBook=?,  quantityBorrowed=?, quantityAvailable=?, quantityLost=? WHERE isbn=?";
         PreparedStatement preparedStatement = Connection.connect().prepareStatement(sql);
         preparedStatement.setString(1, this.isbn);
@@ -220,8 +175,7 @@ public class Book{
         preparedStatement.setInt(6, this.quantityBorrowed);
         preparedStatement.setInt(7, this.quantityAvailable);
         preparedStatement.setInt(8, this.quantityLost);
-        preparedStatement.setString(9, this.isbn);
-
+        preparedStatement.setInt(9, isbn_);
 
         preparedStatement.executeUpdate();
     }

@@ -24,9 +24,8 @@ public class Menu {
             System.out.println("\t01 : Book Management");
             System.out.println("\t02 : Search For a Book");
             System.out.println("\t03 : Management of loans and returns");
-            System.out.println("\t04 : Change Password");
-            System.out.println("\t05 : Statistics");
-            System.out.println("\t06 : Exit The Application");
+            System.out.println("\t04 : Statistics");
+            System.out.println("\t05 : Exit The Application");
             System.out.print("\nYour choice : ");
             choice = scanner.nextInt();
 
@@ -51,6 +50,7 @@ public class Menu {
                                 String isbn = scanner.next();
                                 System.out.println("Title of Book : ");
                                 String title = scanner.next();
+
                                 System.out.println("Please choose the ID of the author of this Book : ");
 
                                 String authorId = scanner.next();
@@ -73,14 +73,17 @@ public class Menu {
                                 break;
                             case 3:
                                 System.out.println("######### Edit a Book ######### ");
-                                System.out.println("Please choose the isbn book that you wanna edit :");
-                                Book bookList = new Book();
-                                bookList.getAllBooks();
+                                System.out.println("Please enter the isbn of book that you wanna edit :");
+
                                 String isbn_ = scanner.next();
-                                bookList.setIsbn(isbn_);
-                                //Book bookEdit = new Book(isbn, title, author, Book.State.available, quantity, quantityBorrowed, quantityAvailable, quantityLost);
-                                Book bookEdit = new Book();
-                                bookEdit.updateDataOfBook();
+                                Book bookData = new Book();
+                                bookData = bookData.getBook(isbn_);
+                                bookData.setIsbn(scanner.next());
+                                bookData.setTitle(scanner.next());
+                                //bookData.setAuthor();
+//                                Book bookEdit = new Book(isbn, title, author, Book.State.available, quantity, quantityBorrowed, quantityAvailable, quantityLost);
+//
+//                                bookEdit.updateDataOfBook(isbn);
                                 break;
                             case 4:
                                 System.out.println("Pleas enter the isbn of the book that you wanna delete :");
@@ -114,10 +117,10 @@ public class Menu {
                     clearScreen();
                     break;
                 case 2:
-                    System.out.println("Enter the name of book that you wanna search for :");
-                        String search = scanner.next();
+                    System.out.println("Enter the Title of book that you wanna search for :");
+                        String title = scanner.next();
                         Book book = new Book();
-                        book.searchBookByTitle(search);
+                        book.searchBookByTitle(title);
                     break;
                 case 3:
                     System.out.println("########## Management of loans and returns. ########## \n");
@@ -217,15 +220,12 @@ public class Menu {
                     } while (choice >= 3);
                     break;
                 case 4:
-
-                    break;
-                case 5:
                     System.out.println("------------ Statistics -------------");
                     Book bookStatistic = new Book();
                     bookStatistic.printStatistics();
 
                     break;
-                case 6:
+                case 5:
                     try {
                         Thread.sleep(2000);
                     } catch (InterruptedException e) {
@@ -238,16 +238,14 @@ public class Menu {
                     System.out.print("\u001B[0m");
             }
 
-        } while( choice >= 6);
+        } while( choice >= 5);
 
     }
 
-    // Clear the screen (works for most consoles)
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
-    // Print header
     public static void printHeader() {
         clearScreen();
         System.out.println("\t \t======================================");
