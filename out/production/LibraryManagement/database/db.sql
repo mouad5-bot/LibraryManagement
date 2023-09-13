@@ -16,6 +16,7 @@ CREATE TABLE Author (
 CREATE TABLE Borrower (
                           id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                           personId INT NOT NULL,
+                          numberOfMember int not null,
                           FOREIGN KEY (personId) REFERENCES Person(id)
 );
 
