@@ -187,14 +187,14 @@ public class Book{
         preparedStatement.executeUpdate();
         System.out.println("THE BOOK HAS BEEN DELETED SUCCESSFULLY.");
     }
-    public void searchBookByTitle(String title){
+    public void searchBookByTitle(String title, String authorName){
 
         try {
-            //String sql="SELECT * FROM book b inner join person p  WHERE b.title like ? OR a.name like ?";
-            String sql="SELECT * FROM book  WHERE title like ?";
+            String sql="SELECT * FROM book b inner join author a inner join person p on a.personId = p.id WHERE b.title like ? OR p.name like ?";
+            //String sql="SELECT * FROM book  WHERE title like ?";
             PreparedStatement statement = Connection.connect().prepareStatement(sql);
             statement.setString(1, "%" + title + "%" );
-            //statement.setString(2, "%" + author.getName() + "%");
+            statement.setString(2, "%" + authorName + "%" );
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
@@ -209,13 +209,11 @@ public class Book{
 
                 System.out.println("isbn: " + isbn + ", Title: " + title_ + ", Author: " + author_id + ", State of book: " + state_ + ", Total Quantity: " + qtn + ", Quantity Borrowed: " + qtnBrr + ", Quantity Available: " + qtnAv + ", Quantity Lost: " + qtnLost);
 
-
             } else {
                 System.out.println("There is No book with this title");
             }
         } catch (SQLException e) {
             System.err.println("Database error: " + e.getMessage());
-
         }
     }
 

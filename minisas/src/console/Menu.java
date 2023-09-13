@@ -137,10 +137,23 @@ public class Menu {
                     clearScreen();
                     break;
                 case 2:
-                    System.out.println("Enter the Title of book that you wanna search for :");
-                        String title = scanner.next();
-                        Book book = new Book();
-                        book.searchBookByTitle(title);
+                    Book book = new Book();
+                    System.out.println("------- SEARCH FOR A BOOK --------");
+                    System.out.println("Do you want to search book by an author or a title ?");
+                    System.out.println("1. by author");
+                    System.out.println("2. by title");
+                    int x = scanner.nextInt();
+                    String title="";
+                    String authorName="";
+                    if (x==1){
+                        System.out.println("Enter the author name : ");
+                        authorName = scanner.next();
+                        book.searchBookByTitle(title, authorName);
+                    }else if(x==2){
+                        System.out.println("Enter the title of book : ");
+                        title = scanner.next();
+                        book.searchBookByTitle(title, authorName);
+                    }
 
                     backToMenu.getMenu();
                     break;
