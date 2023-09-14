@@ -97,14 +97,14 @@ public class Book{
 
 
     public Book addBook() throws SQLException {
-        String sql = "INSERT INTO Book (isbn, title, idAuthor, quantity, stateOfBook, quantityBorrowed, quantityAvailable, quantityLost) " +
+        String sql = "INSERT INTO Book (isbn, title, idAuthor, stateOfBook, quantity, quantityBorrowed, quantityAvailable, quantityLost) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement preparedStatement =  Connection.connect().prepareStatement(sql);
         preparedStatement.setString(1, this.isbn);
         preparedStatement.setString(2, this.title);
         preparedStatement.setInt(3, this.author.getId());
-        preparedStatement.setInt(4, this.quantity);
         preparedStatement.setString(5, this.stateOfBook.toString());
+        preparedStatement.setInt(4, this.quantity);
         preparedStatement.setInt(6, this.quantityBorrowed);
         preparedStatement.setInt(7, this.quantityAvailable);
         preparedStatement.setInt(8, this.quantityLost);
@@ -187,7 +187,7 @@ public class Book{
         preparedStatement.executeUpdate();
         System.out.println("THE BOOK HAS BEEN DELETED SUCCESSFULLY.");
     }
-    public void searchBookByTitle(String title, String authorName){
+    public void searchBookByTitleOrAuthor(String title, String authorName){
 
         try {
             String sql="SELECT * FROM book b inner join author a inner join person p on a.personId = p.id WHERE b.title like ? OR p.name like ?";

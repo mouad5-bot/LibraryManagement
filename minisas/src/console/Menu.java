@@ -44,8 +44,13 @@ public class Menu {
                         choice = scanner.nextInt();
                         switch (choice) {
                             case 1:
+                                Person person = new Person();
+                                Author author = new Author();
+
                                 System.out.println("Please Enter The Name Of Author :");
                                 String AuthorName = scanner.next();
+                                person.addPerson(AuthorName);
+                                author.addAuthor();
 
                                 System.out.println("Please enter the coming parameters :");
                                 System.out.println("isbn of Book : ");
@@ -53,19 +58,18 @@ public class Menu {
                                 System.out.println("Title of Book : ");
                                 String title = scanner.next();
 
-                                System.out.println("Please choose the ID of the author of this Book : ");
+                                int authorId = author.findAuthorIdByName(AuthorName) ;
+                                author.setId(authorId);
 
-                                String authorId = scanner.next();
                                 System.out.println("Quantity of Book : ");
                                 int quantity = scanner.nextInt();
                                 int quantityBorrowed = 0;
                                 int quantityAvailable = quantity;
                                 int quantityLost = 0;
 
-                                Author author = new Author(AuthorName);
-                                author.addAuthor();
                                 Book book = new Book(isbn, title, author, Book.State.available, quantity, quantityBorrowed, quantityAvailable, quantityLost);
                                 book.addBook();
+                                System.out.println("THE BOOK HAS BEEN ADDED SUCCESSFULLY !");
 
                                 backToMenu.getMenu();
                                 break;
@@ -94,7 +98,7 @@ public class Menu {
                                 System.out.println("Enter new or old Author name :");
                                 String name = scanner.next();
                                 authorEdit.searchAuthor(name);
-                                System.out.println("now enter the id of the author that you wanna edit ");
+                                System.out.println("now enter the number of the author that you wanna edit ");
                                 int idPerson = scanner.nextInt();
                                 authorEdit.setId(authorEdit.findAuthorId(idPerson));
 
@@ -148,11 +152,11 @@ public class Menu {
                     if (x==1){
                         System.out.println("Enter the author name : ");
                         authorName = scanner.next();
-                        book.searchBookByTitle(title, authorName);
+                        book.searchBookByTitleOrAuthor(title, authorName);
                     }else if(x==2){
                         System.out.println("Enter the title of book : ");
                         title = scanner.next();
-                        book.searchBookByTitle(title, authorName);
+                        book.searchBookByTitleOrAuthor(title, authorName);
                     }
 
                     backToMenu.getMenu();

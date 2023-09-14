@@ -1,4 +1,12 @@
 package model;
+
+import database.Connection;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
+
 public class Person {
     protected int id;
     protected String name;
@@ -23,11 +31,19 @@ public class Person {
         this.name = name;
     }
 
+
     @Override
     public String toString() {
         return "Person{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public void addPerson(String name) throws SQLException {
+        String sql = "INSERT INTO person(name) VALUES(?)";
+        PreparedStatement preparedStatement = Connection.connect().prepareStatement(sql);
+        preparedStatement.setString(1, name);
+        preparedStatement.executeUpdate();
     }
 }

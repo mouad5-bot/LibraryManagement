@@ -8,7 +8,6 @@ import java.sql.SQLException;
 
 public class Borrower extends Person{
     private int personId;
-    private int numberOfMember;
 
     public Borrower(){
         super();
@@ -16,14 +15,6 @@ public class Borrower extends Person{
     public Borrower(int id , String name ,int personId){
         super(id,name);
         this.personId = personId ;
-    }
-
-    public int getNumberOfMember() {
-        return numberOfMember;
-    }
-
-    public void setNumberOfMember(int numberOfMember) {
-        this.numberOfMember = numberOfMember;
     }
 
     public int getPersonId() {
