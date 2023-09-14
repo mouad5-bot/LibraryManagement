@@ -30,6 +30,10 @@ public class Author extends Person{
         System.out.println("The author has been added successfully");
     }
 
+    public int findAuthorId(int personId){
+        return personId;
+    }
+
     public void searchAuthor(String name){
         try {
             String sql="SELECT * FROM author a inner join person p on a.personId = p.id  WHERE p.name like ?";
@@ -61,6 +65,16 @@ public class Author extends Person{
         resultSet.close();
         preparedStatement.close();
         return res;
+    }
+
+    public void updateAuthor(int id, String name)throws SQLException {
+        String sql = "UPDATE author a inner join person p on a.personId = p.id SET p.name=? WHERE a.id = ?";
+        PreparedStatement preparedStatement = Connection.connect().prepareStatement(sql);
+        preparedStatement.setString(1, name);
+        preparedStatement.setInt(2, id);
+
+        preparedStatement.executeUpdate();
+
     }
 }
 

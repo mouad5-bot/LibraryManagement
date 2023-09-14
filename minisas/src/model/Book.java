@@ -103,8 +103,8 @@ public class Book{
         preparedStatement.setString(1, this.isbn);
         preparedStatement.setString(2, this.title);
         preparedStatement.setInt(3, this.author.getId());
-        preparedStatement.setString(5, this.stateOfBook.toString());
-        preparedStatement.setInt(4, this.quantity);
+        preparedStatement.setString(4, this.stateOfBook.name());
+        preparedStatement.setInt(5, this.quantity);
         preparedStatement.setInt(6, this.quantityBorrowed);
         preparedStatement.setInt(7, this.quantityAvailable);
         preparedStatement.setInt(8, this.quantityLost);
@@ -165,19 +165,20 @@ public class Book{
     }
 
     public void updateDataOfBook(String isbn_) throws SQLException {
-        String sql = "UPDATE Book SET isbn=?, title=?, idAuthor=?,  quantity=?, stateOfBook=?,  quantityBorrowed=?, quantityAvailable=?, quantityLost=? WHERE isbn=?";
+        String sql = "UPDATE Book SET isbn=?, title=?, idAuthor=?,  stateOfBook=?,  quantity=?,  quantityBorrowed=?, quantityAvailable=?, quantityLost=? WHERE isbn=?";
         PreparedStatement preparedStatement = Connection.connect().prepareStatement(sql);
         preparedStatement.setString(1, this.isbn);
         preparedStatement.setString(2, this.title);
         preparedStatement.setInt(3, this.author.getId());
-        preparedStatement.setInt(4, this.quantity);
-        preparedStatement.setString(5, this.stateOfBook.toString());
+        preparedStatement.setString(4, this.stateOfBook.name());
+        preparedStatement.setInt(5, this.quantity);
         preparedStatement.setInt(6, this.quantityBorrowed);
         preparedStatement.setInt(7, this.quantityAvailable);
         preparedStatement.setInt(8, this.quantityLost);
         preparedStatement.setString(9, isbn_);
 
         preparedStatement.executeUpdate();
+        System.out.println("THE BOOK HAS BEEN UPDATED SUCCESSFULLY !");
     }
     public void deleteBook() throws SQLException {
         String sql = "DELETE FROM Book WHERE isbn=?";
@@ -225,9 +226,10 @@ public class Book{
         ResultSet res = statement.executeQuery(sql);
 
             while (res.next()) {
-                System.out.println("isbn: " + res.getString("isbn") + "Title: " + res.getString("title") + "Quantity: " + res.getInt("quantity")   );
+                System.out.println("isbn: " + res.getString("isbn") + ", Title: " + res.getString("title") + ", Quantity: " + res.getInt("quantity")   );
             }
     }
+
 
 //    public void readBorrowedBooks() throws SQLException {
 //        String sql="SELECT * FROM Reservation";

@@ -67,7 +67,7 @@ public class Menu {
                                 int quantityAvailable = quantity;
                                 int quantityLost = 0;
 
-                                Book book = new Book(isbn, title, author, Book.State.available, quantity, quantityBorrowed, quantityAvailable, quantityLost);
+                                Book book = new Book(isbn, title, author, Book.State.available, quantity, quantityAvailable, quantityBorrowed, quantityLost);
                                 book.addBook();
                                 System.out.println("THE BOOK HAS BEEN ADDED SUCCESSFULLY !");
 
@@ -82,28 +82,61 @@ public class Menu {
                                 break;
                             case 3:
                                 System.out.println("######### Edit a Book ######### ");
-                                System.out.println("Please enter the isbn of book that you wanna edit :");
 
-                                String isbn_ = scanner.next();
                                 Book bookData = new Book();
+                                Author authorEdit = new Author();
+
+                                System.out.println("Please enter the isbn of book that you wanna edit :");
+                                String isbn_ = scanner.next();
                                 bookData = bookData.getBook(isbn_);
 
-                                System.out.println("Enter new or old isbn :");
-                                bookData.setIsbn(scanner.next());
+                                System.out.println("Edit isbn :");
+                                String newIsbn = scanner.next();
+                                if(!newIsbn.isEmpty()){
+                                    bookData.setIsbn(newIsbn);
+                                } else if (newIsbn.isEmpty()) {
+                                    System.out.println("ISBN not updated. Input was empty.");
+                                }
 
-                                System.out.println("Enter new or old Title :");
-                                bookData.setTitle(scanner.next());
+                                System.out.println("Edit Title :");
+                                String newTitle = scanner.next();
+                                if(!newTitle.isEmpty()){
+                                    bookData.setTitle(newTitle);
+                                }
 
-                                Author authorEdit = new Author();
-                                System.out.println("Enter new or old Author name :");
+                                System.out.println("Edit author :");
                                 String name = scanner.next();
-                                authorEdit.searchAuthor(name);
-                                System.out.println("now enter the number of the author that you wanna edit ");
-                                int idPerson = scanner.nextInt();
-                                authorEdit.setId(authorEdit.findAuthorId(idPerson));
+                                int id = bookData.getAuthor().getId();
+                                if(!name.isEmpty()){
+                                    authorEdit.updateAuthor( id, name);
+                                }
 
-                                Book bookEdit = new Book();
-                                bookEdit.updateDataOfBook(isbn_);
+                                System.out.println("Edit state of book : ");
+                                System.out.println("1. available");
+                                System.out.println("2. unavailable");
+                                int choose = scanner.nextInt();
+                                Book.State state = null;
+                                if(choose == 1){
+                                    state = Book.State.available;
+                                    bookData.setStateOfBook(state);
+                                } else if (choose == 2) {
+                                    state = Book.State.unavailable;
+                                    bookData.setStateOfBook(state);
+                                }
+
+                                System.out.println("old quantity : " + bookData.getQuantity() + ". Edit it :");
+                                int qnt = scanner.nextInt();
+                                bookData.setQuantity(qnt);
+
+                                int qntBrr = bookData.getQuantityBorrowed();
+                                bookData.setQuantityBorrowed(qntBrr);
+
+                                bookData.setQuantityAvailable(qnt);
+
+                                int qntLost = bookData.getQuantityBorrowed();
+                                bookData.setQuantityLost(qntLost);
+
+                                bookData.updateDataOfBook(isbn_);
 
                                 backToMenu.getMenu();
                                 break;
