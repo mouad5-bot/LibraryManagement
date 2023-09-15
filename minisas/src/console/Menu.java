@@ -18,17 +18,16 @@ public class Menu {
 
 
         do {
-            System.out.print("\u001B[32m"); //for green color
             clearScreen();
             printHeader();
-            System.out.println("\tBonjour !!");
+            System.out.print("\u001B[32m"); //for green color
             System.out.println("\tChoose a number of your choice: \n");
-            System.out.println("\t01 : Book Management");
-            System.out.println("\t02 : Search For a Book");
-            System.out.println("\t03 : Management of loans and returns");
-            System.out.println("\t04 : Statistics");
-            System.out.println("\t05 : Exit The Application");
-            System.out.print("\nYour choice : ");
+            System.out.println("\t \t01 : Book Management");
+            System.out.println("\t \t02 : Search For a Book");
+            System.out.println("\t \t03 : Management of loans and returns");
+            System.out.println("\t \t04 : Statistics");
+            System.out.println("\t \t05 : Exit The Application");
+            System.out.print("\n \tYour choice : ");
             choice = scanner.nextInt();
 
             switch (choice) {
@@ -212,7 +211,7 @@ public class Menu {
                                 String borrowerName = scanner.next();
                                 bookBorrower_.searchBorrower(borrowerName);
 
-                                System.out.println("Now enter the id of borrower you choose from the list : ");
+                                System.out.println("Now enter the number of borrower you choose from the list : ");
                                 int personId = scanner.nextInt();
                                 int BorrowerId = bookBorrower_.findBorrowerById(personId) ;
                                 if(BorrowerId != 0){
@@ -335,10 +334,12 @@ public class Menu {
     }
     public static void printHeader() {
         clearScreen();
+        System.out.print("\u001B[33m");
         System.out.println("\t \t======================================");
         System.out.println("\t \t # --- Library Management --- #  ");
         System.out.println("\t \t======================================");
         System.out.println("\n");
+        System.out.print("\u001B[0m");
     }
 
 }

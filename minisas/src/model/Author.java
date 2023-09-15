@@ -22,10 +22,10 @@ public class Author extends Person{
         this.personId = personId;
     }
 
+    //call addPerson methode first then call this methode
     public void addAuthor() throws SQLException {
         String sql = "INSERT INTO Author (personId) VALUES (LAST_INSERT_ID())";
         PreparedStatement preparedStatement = Connection.connect().prepareStatement(sql);
-        //preparedStatement.setString(1,  this.name);
         preparedStatement.executeUpdate();
         System.out.println("The author has been added successfully");
     }

@@ -25,11 +25,11 @@ public class Borrower extends Person{
         this.personId = personId;
     }
 
-    public void addBorrower(String name) throws SQLException {
-        String sql = "INSERT INTO borrower (name) VALUES(?)";
+    public void addBorrower() throws SQLException {
+        String sql = "INSERT INTO borrower (personId) VALUES(LAST_INSERT_ID())";
         PreparedStatement preparedStatement = Connection.connect().prepareStatement(sql);
-        preparedStatement.setString(1,  this.name);
         int rowsUpdate = preparedStatement.executeUpdate();
+        System.out.println("the borrower has been updated successfully");
     }
 
     public void searchBorrower(String name){
@@ -45,9 +45,11 @@ public class Borrower extends Person{
 
                 System.out.println("id: " + id + ", name: " + nameBorrower );
             }
+//            Person person = new Person();
+//            person.addPerson(name);
+//            addBorrower();
         } catch (SQLException e) {
             System.err.println("Database error: " + e.getMessage());
-
         }
     }
 
